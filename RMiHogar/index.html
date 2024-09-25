@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repuestos MiHogar</title>
+    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="icon" type="image/x-icon" href="../images/MiHogarLogo.ico">
+    <script src="../CDNs/jquery.js"></script>
+    <script src="../CDNs/dataTable.js"></script>
+    <script>
+        function animacionImg(){
+            $("#first").css("width", 40+"%");
+            setTimeout(function(){
+                $("#first").css("width", 50+"%");
+                $("#second").css("width", 40+"%");
+                setTimeout(function(){
+                    $("#second").css("width", 50+"%");
+                    $("#third").css("width", 40+"%");
+                    setTimeout(function(){
+                        $("#third").css("width", 50+"%");
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        };
+    </script>
+</head>
+<body>
+    <main>
+        <header><h1 class="pregunta">¿Cómo fue tu experiencia con nosotros?</h1></header>
+        <form class="form-grid" method="POST" action="./vistas/success.php">
+            <div class="opcion">
+                <input class="rating-img" id="first" type="image" name="submitBuena" alt="Submit" src="../images/happyFace.png">
+                <input type="hidden" name="buena" value="Buena">
+                <label for="buena">Buena</label>
+            </div>
+            <div class="opcion">
+                <input class="rating-img" id="second" type="image" name="submitRegular" alt="Submit" src="../images/mehFace.png">
+                <input type="hidden" name="regular" value="Regular">
+                <label for="regular">Regular</label>
+            </div>
+            <div class="opcion">
+                <input class="rating-img" id="third" type="image" name="submitMala" alt="Submit" src="../images/sadFace.png">
+                <input type="hidden" name="mala" value="Deficiente">
+                <label for="mala">Deficiente</label>
+            </div>
+        </form>
+        <center><img class="logo" src="../images/MiHogarLogo.png"></center>
+        <div class="copyright"><p class="texto">Desarrollado por: José Ferreira</p><img class="qr" src="../images/Ws_QR.jpg"></div>
+        <div class="whatsapp"><p class="texto">Whatsapp: +58 414-0894244</p><img class="qr" src="../images/qr_mihogar.jpeg"></div>
+    </main>
+    <script>
+        $(document).ready(function(){
+            setInterval(animacionImg, 5000);
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+@font-face {
+    font-family: Racing Sans One;
+    src: url(../fuentes/racing_sans_one-regular.ttf);
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family: "Racing Sans One", "Arial";
+}
+
+.fecha-actual{
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    font-size: 40px;
+    margin: 5px 0px;
+}
+
+.logo-empresa{
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    width: 180px;
+    max-width: 100%;
+    height: auto;
+}
+
+.titulo{
+    text-align: center;
+    font-size: 40px;
+}
+
+.boton-container{
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+}
+
+.boton-historial, .boton-dataTable, .boton-premios{
+    border-style: solid !important;
+    border-width: 2px !important;
+    border-color: white !important;
+    padding: 10px 20px !important;
+    background: none !important;
+    background-color: #0145A8 !important;
+    color: white !important;
+    font-family: "Racing Sans One", "Arial" !important;
+    border-radius: 8px !important;
+    font-size: 25px !important;
+    transition: 0.2s !important;
+    box-shadow: 5px 5px 8px rgba(128, 128, 128, 0) !important;
+}
+
+.boton-historial:hover, .boton-dataTable:hover, .boton-premios:hover{
+    cursor: pointer !important;
+    box-shadow: 5px 5px 8px rgba(128, 128, 128, 0.8) !important;
+    background-color: white !important;
+    color: #0145A8 !important;
+    border-color: #0145A8 !important;
+}
+
+.dt-buttons {
+    float: left; /* Posiciona los botones a la izquierda */
+}
+
+.dataTables_filter {
+    float: right; /* Posiciona la barra de búsqueda a la derecha */
+    text-align: right; /* Alinea el contenido a la derecha */
+}
+
+.dataTables_wrapper .dt-buttons {
+    margin-bottom: 10px; /* Espacio entre los botones y la tabla */
+}
+
+.per-bar p{
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.per-mal{
+    color: #FF3131;
+}
+
+.per-regular{
+    color: #ffd013;
+}
+
+.per-bien{
+    color: #00BF63;
+}
+
+.mal, .regular, .bien{
+    width: 100%;
+    height: 100%;
+}
+
+.mal{
+    background-color: #FF3131;
+}
+
+.regular{
+    background-color: #ffd013;
+}
+
+.bien{
+    background-color: #00BF63;
+}
+
+.list-container{
+    width: 80%;
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 30px;
+    flex-direction: column;
+}
+
+@media only screen and (max-width: 426px) {
+    .fecha-actual{
+        font-size: 20px;
+    }
+
+    .titulo{
+        margin-top: 57px;
+        font-size: 30px;
+    }
+
+    .logo-empresa{
+        width: 80px;
+    }
+
+    .boton-historial{
+        font-size: 15px;
+    }
+
+    .per-bar p{
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+        font-size: 23px;
+    }
+
+    .list-container{
+        font-size: 17px;
+    }
+}

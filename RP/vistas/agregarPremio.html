@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Premio</title>
+    <link rel="icon" type="image/x-icon" href="../../images/RPLogo.ico">
+    <link rel="stylesheet" href="../../styles/agregarPremio.css">
+</head>
+<body>
+    <main class="flex-column-center">
+        <form method="post" id="formDatosPremio">
+            <div class="campos">
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" required>
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" id="cantidad" min="0" step="1" required>
+                <label for="probabilidad">Probabilidad:</label>
+                <input type="number" name="probabilidad" id="probabilidad" min="0" max="100" required>
+            </div>
+            <p id="prob-max"></p>
+            <div class="flex-row-even button-container">
+                <button class="opButton" type="submit" form="formDatosPremio">Confirmar</button>
+                <button class="opButton" onclick="window.location.href='./premios.html'">Volver</button>
+            </div>
+        </form>
+    </main>
+    <script src="../../CDNs/jquery.js"></script>
+    <script>
+        function cargarPremio(){
+            $.ajax({
+                url: "../controladorJson/agregarAJsonPremios.php",
+                data:{
+                    nombre: $("#nombre").val(),
+                    cantidad: $("#cantidad").val(),
+                    probabilidad: $("#probabilidad").val()
+                },
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    alert("Premio agregado exitosamente.");
+                    location.href = "./premios.html";
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        let sumProbs = 0;
+        let probMax = 100;
+
+        function checkProbMax(){
+            $.ajax({
+                url: "../phpFunctions/getPremios.php",
+                dataType:"json",
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    result.premios.forEach(element => {
+                        sumProbs+=element.probabilidad;
+                    });
+                    probMax-=sumProbs;
+                    $("#prob-max").html("Valor maximo: " + probMax);
+                    $("#probabilidad").attr('max', probMax);
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            checkProbMax();
+        });
+
+        $("#formDatosPremio").submit(function(event){
+            event.preventDefault();
+            if($("#probabilidad").val()>probMax){
+                alert("Este valor supera el maximo permitido (" + probMax + "%)");
+            } else{
+                cargarPremio();
+            }
+        });
+    </script>
+</body>
+</html>

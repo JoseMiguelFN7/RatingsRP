@@ -1,0 +1,81 @@
+@font-face {
+    font-family: Racing Sans One;
+    src: url(../fuentes/racing_sans_one-regular.ttf);
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family: "Racing Sans One", "Arial";
+    width: 100%;
+    font-size: 30px;
+}
+
+.flex-column-center{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.flex-row-even{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+header{
+    position: relative;
+}
+
+.logo-empresa{
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    width: 180px;
+    max-width: 100%;
+    height: auto;
+}
+
+.titulo{
+    text-align: center;
+    font-size: 40px;
+    margin-top: 40px;
+    margin-bottom: 90px;
+}
+
+main{
+    width: 100%;
+}
+
+.table-container{
+    width: 90%;
+}
+
+.button-container{
+    width: 100%;
+    margin-top: 30px;
+}
+
+.opButton{
+    cursor: pointer;
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    padding: 10px 20px;
+    background: none;
+    background-color: #0145A8;
+    color: white;
+    font-family: "Racing Sans One", "Arial";
+    border-radius: 8px;
+    font-size: 20px;
+    transition: 0.2s;
+    box-shadow: 5px 5px 8px rgba(128, 128, 128, 0);
+}
+
+.opButton:hover{
+    box-shadow: 5px 5px 8px rgba(128, 128, 128, 0.8);
+    background-color: white;
+    color: #0145A8;
+    border-color: #0145A8;
+}

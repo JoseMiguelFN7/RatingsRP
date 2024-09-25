@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premios</title>
+    <link rel="stylesheet" href="../../styles/dataTable.css">
+    <link rel="stylesheet" href="../../styles/premios.css">
+    <link rel="icon" type="image/x-icon" href="../../images/ClimaniaLogo.ico">
+</head>
+<body>
+    <img src="../../images/ClimaniaLogo.png" class="logo-empresa">
+    <header><h1 class="titulo">Lista de Premios</h1></header>
+    <main class="flex-column-center">
+        <div class="table-container">
+            <table id="tabla-premios" class="display" style="width: 100%;">
+                <thead>
+                    <tr><th>Premio</th><th>Cantidad</th><th>Probabilidad</th></tr>
+                </thead>
+                <tbody id="cuerpo-premios"></tbody>
+            </table>
+        </div>
+        <div class="flex-row-even button-container">
+            <button class="opButton" onclick="window.location.href='./agregarPremio.html'">Agregar Premio</button>
+            <button class="opButton" onclick="window.location.href='./modificarPremio.html'">Modificar Premio</button>
+            <button class="opButton" onclick="window.location.href='./borrarPremio.html'">Borrar Premio</button>
+            <button class="opButton" onclick="window.location.href='./ratings.html'">Volver</button>
+        </div>
+    </main>
+    <script src="../../CDNs/jquery.js"></script>
+    <script src="../../CDNs/dataTable.js"></script>
+    <script>
+        function consultaPremios(){
+            $.ajax({
+                url: "../phpFunctions/getPremios.php",
+                dataType: 'json',
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    let table = $("#tabla-premios").DataTable();
+                    table.clear()
+                    result.premios.forEach(element => {
+                        table.row.add([
+                            element.premio,
+                            element.cantidad,
+                            element.probabilidad+'%',
+                        ]).draw(false);
+                    });
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            consultaPremios();
+            let tablaNotas = $("#tabla-premios").DataTable({
+                language: {
+                url: '../../dataTableES.json',
+                },
+                order: [] //no hay ordenamiento inicial.
+            });
+        });
+    </script>
+</body>
+</html>

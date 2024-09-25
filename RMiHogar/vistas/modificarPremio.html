@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Premio</title>
+    <link rel="icon" type="image/x-icon" href="../../images/MiHogarLogo.ico">
+    <link rel="stylesheet" href="../../styles/modificarPremio.css">
+</head>
+<body>
+    <main class="flex-column-center">
+        <form method="post" id="formModPremio">
+            <div class="campos">
+                <label for="nombre-list">Premio a modificar:</label>
+                <select name="nombre-list" id="nombre-list" required onchange="insertarValsPremios()"><option value=""></option></select>
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" required>
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" id="cantidad" min="0" step="1" required>
+                <label for="probabilidad">Probabilidad:</label>
+                <input type="number" name="probabilidad" id="probabilidad" min="0" max="100" required>
+            </div>
+            <p id="prob-max">Valor máximo:</p>
+            <div class="flex-row-even button-container">
+                <button class="opButton" type="submit" form="formModPremio">Confirmar</button>
+                <button class="opButton" onclick="window.location.href='./premios.html'">Volver</button>
+            </div>
+        </form>
+    </main>
+    <script src="../../CDNs/jquery.js"></script>
+    <script>
+        function getNombresPremios(){
+            $.ajax({
+                url: "../phpFunctions/getPremios.php",
+                dataType: 'json',
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    result.premios.forEach(element => {
+                        $("#nombre-list").append("<option value='" + element.premio + "'>" + element.premio + "</option>");
+                    });
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        let sumProbs = 0;
+        let probMax = 100;
+
+        function checkProbMax(){
+            $.ajax({
+                url: "../phpFunctions/getPremios.php",
+                dataType:"json",
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    sumProbs = 0;
+                    probMax = 100;
+                    result.premios.forEach(element => {
+                        if(element.premio!=$("#nombre-list").val()){
+                            sumProbs+=element.probabilidad;
+                        }
+                    });
+                    probMax-=sumProbs;
+                    $("#prob-max").html("Valor maximo: " + probMax);
+                    $("#probabilidad").attr('max', probMax);
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        function insertarValsPremios(){
+            if($("#nombre-list").val()==""){
+                $("#nombre").val("");
+                $("#cantidad").val("");
+                $("#probabilidad").val("");
+                $("#prob-max").html("Valor máximo:");
+                return;
+            }
+            $.ajax({
+                url: "../phpFunctions/getPremios.php",
+                dataType: 'json',
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    result.premios.forEach(element => {
+                        if(element.premio==$("#nombre-list").val()){
+                            $("#nombre").val(element.premio);
+                            $("#cantidad").val(element.cantidad);
+                            $("#probabilidad").val(element.probabilidad);
+                        }
+                    });
+                    checkProbMax();
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        function modificarPremio(){
+            $.ajax({
+                url: "../controladorJson/modificarJsonPremios.php",
+                data:{
+                    premio: $("#nombre-list").val(),
+                    nombre: $("#nombre").val(),
+                    cantidad: $("#cantidad").val(),
+                    probabilidad: $("#probabilidad").val()
+                },
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    alert("Premio modificado exitosamente.");
+                    location.href = "./premios.html";
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            getNombresPremios();
+        });
+
+        $("#formModPremio").submit(function(event){
+            event.preventDefault();
+            if($("#nombre-list").val()==""){
+                alert("Seleccione un premio.");
+            } else{
+                modificarPremio();
+            }
+        });
+    </script>
+</body>
+</html>

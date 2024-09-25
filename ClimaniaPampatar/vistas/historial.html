@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Ratings</title>
+    <script src="../../CDNs/jquery.js"></script>
+    <script src="../../CDNs/dataTable.js"></script>
+    <script src="../../CDNs/dataTableButtons.js"></script>
+    <script src="../../CDNs/PDFExcelButtons.js"></script>
+    <script src="../../CDNs/PDFMake.js"></script>
+    <script src="../../CDNs/PDFMakeFonts.js"></script>
+    <script src="../../CDNs/JSZip.js"></script>
+    <link rel="stylesheet" href="../../styles/historial.css">
+    <link rel="stylesheet" href="../../styles/dataTable.css">
+    <link rel="stylesheet" href="../../styles/dataTableButtons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/x-icon" href="../../images/ClimaniaLogo.ico">
+
+    <script>
+        function refreshList(){
+            $.ajax({
+                url: "../phpFunctions/addHistorial.php",
+                type: "POST",
+                dataType: "json",
+                success: function(result){
+                    console.log(result);
+                    rows = "";
+                    let fecha = "";
+                    let buena = 0;
+                    let regular = 0;
+                    let deficiente = 0;
+                    let tabla = $('#tablaRatings').DataTable();
+
+                    if(tabla.rows().count()<result.ratings.length){
+                        result.ratings.forEach((item, index) =>{
+                            fecha = item.date;
+                            buena = item.Buena;
+                            regular = item.Regular;
+                            deficiente = item.Deficiente;
+                            rows += '<tr><td class="details-control"></td><td>' + fecha + '</td><td style="display:none;">' + buena + '</td><td style="display:none;">' + regular + '</td><td style="display:none;">' + deficiente + '</td></tr>';
+                        });
+                    }
+
+                    $("#LR").empty().append(rows);
+                    tabla.clear().rows.add($("#LR tr")).draw();
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        };
+
+        function getFechaHora(){
+            $.ajax({
+                url: "../phpFunctions/getFechaHora.php",
+                dataType: 'json',
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    $(".fecha-actual").html(result["fecha"]+"</br>"+result["hora"]);
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <img src="../../images/ClimaniaLogo.png" class="logo-empresa">
+    <p class="fecha-actual"></p>
+    <header><h1 class="titulo">Historial de Ratings</h1></header>
+    <div class="boton-container"><button class="boton-volver" onclick="window.location.href='./ratings.html';">Volver</button></div>
+    <div class="list-container">
+        <table id="tablaRatings" class="display" style="width:100%">
+            <thead class="list-titles">
+                <tr><th></th><th>Fecha</th><th class="buena">Buena</th><th class="regular">Regular</th><th class="deficiente">Deficiente</th></tr>
+            </thead>
+            <tbody id="LR"></tbody>
+        </table>
+    </div>
+</body>
+<script>
+    $(document).ready(function(){
+        let tabla = $('#tablaRatings').DataTable({
+            dom: '<"dt-buttons"B><"dataTables_filter"f>rt', // Define la posición de los botones
+            buttons: [
+            {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o" style="color: green"></i>',
+                    className: 'boton-dataTable' // Añadir clase personalizada
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o" style="color: red"></i>',
+                    className: 'boton-dataTable' // Añadir clase personalizada
+                }
+            ],
+            language: {
+                url: '../../dataTableES.json',
+            },
+            pageLength: -1,
+            columnDefs: [
+                {
+                    targets: [2, 3, 4],
+                    visible: false
+                }
+            ],
+        });
+
+        // Función para formatear la información de los detalles de la fila
+        function format(d) {
+            return '<table cellpadding="5" cellspacing="0" border-style="none" style="padding-left:50px;">'+
+                '<tr style="color: #00BF63">'+
+                    '<td>Buena:</td>'+
+                    '<td>'+d[2]+'</td>'+
+                '</tr>'+
+                '<tr style="color: #ffd013">'+
+                    '<td>Regular:</td>'+
+                    '<td>'+d[3]+'</td>'+
+                '</tr>'+
+                '<tr style="color: #FF3131">'+
+                    '<td>Deficiente:</td>'+
+                    '<td>'+d[4]+'</td>'+
+                '</tr>'+
+            '</table>';
+        }
+
+        $('#tablaRatings tbody').on('click', 'td.details-control', function () {
+            let icon = $(".show-hide");
+            let tr = $(this).closest('tr');
+            let row = tabla.row(tr);
+
+            if (row.child.isShown()) {
+                // Esta fila ya está abierta - cerrar
+
+                row.child.hide();
+                tr.removeClass('shown');
+            } else {
+                // Abrir esta fila
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+        refreshList();
+        getFechaHora();
+
+        /*setInterval(refreshList, 5000); // Consultar cada 5 segundos (5000 milisegundos)
+        setInterval(getFechaHora, 5000); // Consultar cada 5 segundos (5000 milisegundos)*/
+    })
+</script>
+</html>

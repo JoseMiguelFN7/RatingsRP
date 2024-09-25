@@ -1,0 +1,170 @@
+@font-face {
+    font-family: Racing Sans One;
+    src: url(../fuentes/racing_sans_one-regular.ttf);
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family: "Racing Sans One", "Arial";
+}
+
+.fecha-actual{
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    font-size: 40px;
+    margin: 5px 0px;
+}
+
+.logo-empresa{
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    width: 180px;
+    max-width: 100%;
+    height: auto;
+}
+
+.titulo{
+    text-align: center;
+    font-size: 40px;
+}
+
+.boton-container{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.boton-volver, .boton-dataTable{
+    border-style: solid !important;
+    border-width: 2px !important;
+    border-color: white !important;
+    padding: 10px 20px !important;
+    background-color: #0145A8 !important;
+    color: white !important;
+    font-family: "Racing Sans One", "Arial" !important;
+    border-radius: 8px !important;
+    font-size: 25px !important;
+    transition: 0.2s !important;
+    box-shadow: 5px 5px 8px rgba(128, 128, 128, 0) !important;
+}
+
+.boton-volver:hover, .boton-dataTable:hover{
+    cursor: pointer !important;
+    box-shadow: 5px 5px 8px rgba(128, 128, 128, 0.8) !important;
+    background-color: white !important;
+    color: #0145A8 !important;
+    border-color: #0145A8 !important;
+}
+
+.list-container{
+    width: 80%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 30px;
+    flex-direction: column;
+}
+
+.dt-buttons {
+    float: left; /* Posiciona los botones a la izquierda */
+}
+
+.dataTables_filter {
+    float: right; /* Posiciona la barra de búsqueda a la derecha */
+    text-align: right; /* Alinea el contenido a la derecha */
+}
+
+.dataTables_wrapper .dt-buttons {
+    margin-bottom: 10px; /* Espacio entre los botones y la tabla */
+}
+
+/*ol li {
+    counter-increment: num;
+}
+
+ol li:before {
+    content: counter(num) ". ";
+}
+
+ol {
+    list-style: none;
+    counter-reset: num;
+    width: 100%;
+    padding: 0px;
+    margin-top: 5px;
+}
+
+li, .list-titles{
+    display: grid;
+    grid-template-columns: 2rem 1fr 1fr 1fr 1fr;
+    text-align: center;
+}*/
+
+.details-control{
+    cursor: pointer;
+    background: url('../images/plus-icon.png') no-repeat center center;
+    background-size: contain;
+    transition: 0.2s;
+}
+
+tr.shown td.details-control {
+    cursor: pointer;
+    background: url('../images/minus-icon.png') no-repeat center center;
+    background-size: contain;
+    transition: 0.2s;
+}
+
+.list-titles p{
+    margin-bottom: 3px;
+    border-bottom: solid 3px black;
+}
+
+.deficiente{
+    color: #FF3131;
+}
+
+.regular{
+    color: #ffd013;
+}
+
+.buena{
+    color: #00BF63;
+}
+
+@media only screen and (max-width: 426px) {
+    .fecha-actual{
+        font-size: 20px;
+    }
+
+    .titulo{
+        margin-top: 60px;
+        font-size: 30px;
+    }
+
+    .logo-empresa{
+        width: 80px;
+    }
+
+    .boton-volver{
+        font-size: 15px;
+    }
+
+    .per-bar p{
+        padding: 0px;
+        margin: 0px;
+        text-align: center;
+        font-size: 23px;
+    }
+
+    .list-container{
+        font-size: 15px;
+    }
+
+    ol {
+        font-size: 10px;
+    }
+}

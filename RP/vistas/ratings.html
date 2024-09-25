@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Ratings</title>
+    <script src="../../CDNs/jquery.js"></script>
+    <script src="../../CDNs/dataTable.js"></script>
+    <script src="../../CDNs/dataTableButtons.js"></script>
+    <script src="../../CDNs/PDFExcelButtons.js"></script>
+    <script src="../../CDNs/PDFMake.js"></script>
+    <script src="../../CDNs/PDFMakeFonts.js"></script>
+    <script src="../../CDNs/JSZip.js"></script>
+    <link rel="stylesheet" href="../../styles/ratings.css">
+    <link rel="stylesheet" href="../../styles/dataTable.css">
+    <link rel="stylesheet" href="../../styles/dataTableButtons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/x-icon" href="../../images/RPLogo.ico">
+    <script>
+        function refreshList(){
+            $.ajax({
+                url: "../phpFunctions/addList.php",
+                type: "POST",
+                dataType: "json",
+                success: function(result){
+                    console.log(result);
+                    let rows = '';
+                    let fecha = '';
+                    let hora = '';
+                    let rat = '';
+                    let tabla = $('#tablaRatings').DataTable();
+                    
+                    if(tabla.rows().count()<result.ratings.length){
+                        result.ratings.forEach((item, index) =>{
+                            fecha = item.date;
+                            hora = item.time;
+                            rat = item.rating;
+                            switch(rat){
+                                case "Buena":
+                                    rows += '<tr><td>' + fecha + '</td><td>' + hora + '</td><td style="color: #00BF63">' + rat + '</td></tr>';
+                                    break;
+                                case "Regular":
+                                    rows += '<tr><td>' + fecha + '</td><td>' + hora + '</td><td style="color: #ffd013">' + rat + '</td></tr>';
+                                    break;
+                                case "Deficiente":
+                                    rows += '<tr><td>' + fecha + '</td><td>' + hora + '</td><td style="color: #FF3131">' + rat + '</td></tr>';
+                                    break;
+                            }
+                        });
+                        $("#LR").empty().append(rows);
+                        tabla.clear().rows.add($("#LR tr")).draw();
+                    }
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        };
+
+        function getContadores(){
+            $.ajax({
+                url: "../phpFunctions/contadores.php",
+                dataType: 'json',
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    let diario = result["Diario"];
+                    let mensual = result["Mensual"];
+                    $(".contadores-contaner").empty();
+                    $(".contadores-contaner").html("<p>Hoy: " + diario + "</p><p>Este mes: " + mensual + "</p>");
+                    $(".contadores-contaner").css({
+                        'display': 'flex',
+                        'flex-direction': 'row',
+                        'justify-content': 'space-evenly',
+                        'align-items': 'center',
+                        'font-size': '30px',
+                    });
+                    $(".contadores-contaner p").css({
+                        'display': 'inline-block',
+                        'margin': '6px 0px'
+                    });
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        };
+
+        function getPorcentajes(){
+            $.ajax({
+                url: "../phpFunctions/porcentajes.php",
+                dataType: 'json',
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    if (result["totales"]>0){
+                        let pMal = (result["malas"]/result["totales"])*100;
+                        let pReg = (result["regulares"]/result["totales"])*100;
+                        let pBien = (result["buenas"]/result["totales"])*100;
+                        $(".per-bar").html("<p class='per-bien'></p><p class='per-regular'></p><p class='per-mal'></p><div class='bien'></div><div class='regular'></div><div class='mal'></div>");
+                        $('.per-bar').css({
+                            'margin-left': 'auto',
+                            'margin-right': 'auto',
+                            'height': '65px',
+                            'width': '80%',
+                            'display': 'grid',
+                            'grid-template-rows': '1fr 1fr',
+                            'transition': '0.3s',
+                            'grid-template-columns': pBien+"% "+pReg+"% "+pMal+"%",
+                            "opacity": "1"
+                        });
+                        $(".per-mal").empty();
+                        $(".per-regular").empty();
+                        $(".per-bien").empty();
+                        if(pMal.toFixed(2)>0){
+                            $(".per-mal").html(pMal.toFixed(2)+"%");
+                        }
+                        if(pReg.toFixed(2)>0){
+                            $(".per-regular").html(pReg.toFixed(2)+"%");
+                        }
+                        if(pBien.toFixed(2)>0){
+                            $(".per-bien").html(pBien.toFixed(2)+"%");
+                        }
+                    } else{
+                        $('.per-bar').css({
+                            'margin-left': '',
+                            'margin-right': '',
+                            'height': '',
+                            'width': '',
+                            'display': '',
+                            'grid-template-rows': '',
+                            'transition': '0.3s',
+                            'grid-template-columns': '',
+                            "opacity": "0"
+                        });
+                        $(".per-bar").empty();
+                    }
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        function getFechaHora(){
+            $.ajax({
+                url: "../phpFunctions/getFechaHora.php",
+                dataType: 'json',
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    $(".fecha-actual").html(result["fecha"]+"</br>"+result["hora"]);
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        function actualizarHistorial(){
+            $.ajax({
+                url: "../controladorJson/moverAHistorial.php",
+                type: "POST",
+                success: function(){
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <img src="../../images/RPLogo.png" class="logo-empresa">
+    <p class="fecha-actual"></p>
+    <header><h1 class="titulo">Lista de Ratings</h1></header>
+    <div class="contadores-contaner"></div>
+    <div class="boton-container"><button class="boton-historial" onclick="window.location.href='./historial.html';">Abrir Historial</button><button class="boton-premios" onclick="window.location.href='./premios.html';">Abrir Premios</button></div>
+    <div class='per-bar'></div>
+    <div class="list-container">
+        <table id="tablaRatings" class="display" style="width:100%">
+            <thead class="list-titles">
+                <tr><th>Fecha</th><th>Hora</th><th>Rating</th></tr>
+            </thead>
+            <tbody id="LR"></tbody>
+        </table>
+    </div>
+</body>
+<script>
+    $(document).ready(function(){
+        let tabla = $('#tablaRatings').DataTable({
+            dom: '<"dt-buttons"B><"dataTables_filter"f>rt', // Define la posición de los botones
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o" style="color: green"></i>',
+                    className: 'boton-dataTable' // Añadir clase personalizada
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o" style="color: red"></i>',
+                    className: 'boton-dataTable' // Añadir clase personalizada
+                }
+            ],
+            language: {
+                url: '../../dataTableES.json',
+            },
+            pageLength: -1,
+            order: [] //no hay ordenamiento inicial.
+        });
+
+        actualizarHistorial();
+        refreshList();
+        getPorcentajes();
+        getContadores();
+        getFechaHora();
+
+        setInterval(actualizarHistorial, 3600000); // Consultar cada hora (3600000 milisegundos)
+        setInterval(refreshList, 5000); // Consultar cada 5 segundos (5000 milisegundos)
+        setInterval(getPorcentajes, 5000); // Consultar cada 5 segundos (5000 milisegundos)
+        setInterval(getContadores, 5000); // Consultar cada 5 segundos (5000 milisegundos)
+        setInterval(getFechaHora, 5000); // Consultar cada 5 segundos (5000 milisegundos)
+    })
+</script>
+</html>

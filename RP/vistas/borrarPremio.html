@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borrar Premio</title>
+    <link rel="stylesheet" href="../../styles/eliminarPremio.css">
+    <link rel="icon" type="image/x-icon" href="../../images/RPLogo.ico">
+</head>
+<body>
+    <main class="flex-column-center">
+        <form method="post" id="formDelPremio">
+            <div class="campos">
+                <label for="nombre-list">Premio a eliminar:</label>
+                <select name="nombre-list" id="nombre-list" required onchange="insertarValsPremios()"><option value=""></option></select>
+                <label for="nombre">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" required readonly>
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" id="cantidad" min="0" step="1" required readonly>
+                <label for="probabilidad">Probabilidad:</label>
+                <input type="number" name="probabilidad" id="probabilidad" min="0" max="100" required readonly>
+            </div>
+            <div class="flex-row-even button-container">
+                <button class="opButton" type="submit" form="formDelPremio">Eliminar</button>
+                <button class="opButton" onclick="window.location.href='./premios.html'">Volver</button>
+            </div>
+        </form>
+    </main>
+    <script src="../../CDNs/jquery.js"></script>
+    <script>
+        function getNombresPremios(){
+            $.ajax({
+                url: "../phpFunctions/getPremios.php",
+                dataType: 'json',
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    result.premios.forEach(element => {
+                        $("#nombre-list").append("<option value='" + element.premio + "'>" + element.premio + "</option>");
+                    });
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        function insertarValsPremios(){
+            if($("#nombre-list").val()==""){
+                $("#nombre").val("");
+                $("#cantidad").val("");
+                $("#probabilidad").val("");
+                return;
+            }
+            $.ajax({
+                url: "../phpFunctions/getPremios.php",
+                dataType: 'json',
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    result.premios.forEach(element => {
+                        if(element.premio==$("#nombre-list").val()){
+                            $("#nombre").val(element.premio);
+                            $("#cantidad").val(element.cantidad);
+                            $("#probabilidad").val(element.probabilidad);
+                        }
+                    });
+                    checkProbMax();
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        function borrarPremio(){
+            $.ajax({
+                url: "../controladorJson/borrarDeJsonPremios.php",
+                data:{
+                    premio: $("#nombre-list").val()
+                },
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    alert("Premio eliminado exitosamente.");
+                    location.href = "./premios.html";
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            getNombresPremios();
+        });
+
+        $("#formDelPremio").submit(function(event){
+            event.preventDefault();
+            if($("#nombre-list").val()==""){
+                alert("Seleccione un Premio.");
+            } else{
+                borrarPremio();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+@font-face {
+    font-family: Racing Sans One;
+    src: url(../fuentes/racing_sans_one-regular.ttf);
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family: "Racing Sans One", "Arial";
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.copyright{
+    margin: 0px;
+    position: absolute;
+    bottom: 10px;
+    font-size: 30px;
+    left: 10px;
+}
+
+.pregunta, label{
+    text-align: center;
+    font-size: 60px;
+}
+
+.pregunta{
+    margin-top: 3px;
+    margin-bottom: 70px;
+    font-size: 70px;
+}
+
+.form-grid{
+    display: flex;
+    flex-direction: row;
+}
+
+.opcion{
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+}
+
+.rating-img{
+    display: block;
+    width: 50%;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    transition: 1s;
+}
+
+.logo{
+    width: 15%;
+    margin-top: 25px;
+}
+
+.copyright, .whatsapp{
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 10px;
+    font-size: 30px;
+}
+
+.copyright{
+    left: 10px;
+}
+
+.whatsapp{
+    right: 10px;
+}
+
+.texto{
+    margin: 0px;
+    margin-bottom: 10px;
+}
+
+.qr{
+    object-fit: cover;
+    height: 160px;
+    width: 160px;
+    align-self: center;
+}
+
+@media only screen and (max-width: 1024px) {
+    h1, label, .pregunta{
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    .copyright, .whatsapp{
+        font-size: 20px;
+    }
+
+    .qr{
+        height: 110px;
+        width: 110px;
+    }
+}
