@@ -127,7 +127,7 @@ body{
     }
 
     .titulo{
-        margin-top: 57px;
+        margin-top: 75px;
         font-size: 30px;
     }
 
@@ -135,8 +135,9 @@ body{
         width: 80px;
     }
 
-    .boton-historial{
-        font-size: 15px;
+    .boton-historial, .boton-premios{
+        font-size: 20px !important;
+        padding: 10px 20px !important;
     }
 
     .per-bar p{

@@ -137,12 +137,12 @@ tr.shown td.details-control {
 
 @media only screen and (max-width: 426px) {
     .fecha-actual{
-        font-size: 20px;
+        font-size: 25px;
     }
 
     .titulo{
-        margin-top: 60px;
-        font-size: 30px;
+        margin-top: 85px;
+        font-size: 35px;
     }
 
     .logo-empresa{
@@ -150,7 +150,7 @@ tr.shown td.details-control {
     }
 
     .boton-volver{
-        font-size: 15px;
+        font-size: 25px !important;
     }
 
     .per-bar p{
@@ -161,7 +161,7 @@ tr.shown td.details-control {
     }
 
     .list-container{
-        font-size: 15px;
+        font-size: 30px;
     }
 
     ol {

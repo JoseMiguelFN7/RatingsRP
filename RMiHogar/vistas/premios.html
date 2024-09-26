@@ -12,8 +12,8 @@
     <img src="../../images/MiHogarLogo.png" class="logo-empresa">
     <header><h1 class="titulo">Lista de Premios</h1></header>
     <main class="flex-column-center">
-        <div class="table-container">
-            <table id="tabla-premios" class="display" style="width: 100%;">
+        <div class="table-container" style="width: 90%;">
+            <table id="tabla-premios" class="display">
                 <thead>
                     <tr><th>Premio</th><th>Cantidad</th><th>Probabilidad</th></tr>
                 </thead>
@@ -59,7 +59,8 @@
                 language: {
                 url: '../../dataTableES.json',
                 },
-                order: [] //no hay ordenamiento inicial.
+                order: [], //no hay ordenamiento inicial.
+                responsive: true // activas la responsividad
             });
         });
     </script>
