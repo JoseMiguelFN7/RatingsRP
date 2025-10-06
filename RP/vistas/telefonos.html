@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de teléfonos</title>
+    <script src="../../CDNs/jQueryV3.7.1.js"></script>
+    <script src="../../CDNs/dataTable.js"></script>
+    <script src="../../CDNs/dataTableButtons.js"></script>
+    <script src="../../CDNs/PDFExcelButtons.js"></script>
+    <script src="../../CDNs/PDFMake.js"></script>
+    <script src="../../CDNs/PDFMakeFonts.js"></script>
+    <script src="../../CDNs/JSZip.js"></script>
+    <link rel="stylesheet" href="../../styles/ratings.css">
+    <link rel="stylesheet" href="../../styles/dataTable.css">
+    <link rel="stylesheet" href="../../styles/dataTableButtons.css">
+    <link rel="icon" type="image/x-icon" href="../../assets/tiendas/RPLogo.ico">
+    <link rel="stylesheet" href="../../assets/bootstrap-icons-1.11.3/font/bootstrap-icons.css">
+    <script>
+        function refreshList(){
+            $.ajax({
+                url: "../phpFunctions/addList.php",
+                type: "POST",
+                dataType: "json",
+                success: function(result){
+                    console.log(result);
+                    let rows = '';
+                    let tabla = $('#tablaRatings').DataTable();
+                    
+                    if(tabla.rows().count()<result.ratings.length){
+                        result.ratings.forEach((item, index) =>{
+                            if(item.tel != null){
+                                rows += '<tr><td>' + item.tel + '</td></tr>';
+                            }
+                        });
+                        $("#LR").empty().append(rows);
+                        tabla.clear().rows.add($("#LR tr")).draw();
+                    }
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        };
+
+        function getFechaHora(){
+            $.ajax({
+                url: "../phpFunctions/getFechaHora.php",
+                dataType: 'json',
+                type: "POST",
+                success: function(result){
+                    console.log(result);
+                    $(".fecha-actual").html(result["fecha"]+"</br>"+result["hora"]);
+                },
+                error: function(){
+                    console.log("FALLOOOOOOOOOOOOOOOOOOO");
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <img src="../../assets/tiendas/RPLogo.png" class="logo-empresa">
+    <p class="fecha-actual"></p>
+    <header><h1 class="titulo">Lista de Teléfonos</h1></header>
+    <div class="contadores-contaner"></div>
+    <div class="boton-container"><button class="boton-premios" onclick="window.location.href='./ratings.html';">Volver</button></div>
+    <div class='per-bar'></div>
+    <div class="list-container">
+        <table id="tablaRatings" class="display" style="width:100%">
+            <thead class="list-titles">
+                <tr><th>Teléfono</th></tr>
+            </thead>
+            <tbody id="LR"></tbody>
+        </table>
+    </div>
+</body>
+<script>
+    $(document).ready(function(){
+        let tabla = $('#tablaRatings').DataTable({
+            dom: '<"dt-buttons"B><"dataTables_filter"f>rt', // Define la posición de los botones
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="bi bi-file-earmark-excel-fill" style="color: green"></i>',
+                    className: 'boton-dataTable' // Añadir clase personalizada
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="bi bi-file-earmark-pdf-fill" style="color: red"></i>',
+                    className: 'boton-dataTable' // Añadir clase personalizada
+                }
+            ],
+            language: {
+                url: '../../dataTableES.json',
+            },
+            pageLength: -1,
+            order: [] //no hay ordenamiento inicial.
+        });
+
+        refreshList();
+        getFechaHora();
+
+        setInterval(refreshList, 5000); // Consultar cada 5 segundos (5000 milisegundos)
+        setInterval(getFechaHora, 5000); // Consultar cada 5 segundos (5000 milisegundos)
+    })
+</script>
+</html>

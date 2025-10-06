@@ -1,0 +1,17 @@
+@font-face {
+    font-family: Racing Sans One;
+    src: url(../fuentes/racing_sans_one-regular.ttf);
+}
+
+body{
+    font-family: 'Racing Sans One', 'Arial' !important;
+}
+
+#feliz, #serio, #triste{
+    width: 120%;
+    transition: 1.5s;
+}
+
+label{
+    margin-top: -50px !important;
+}

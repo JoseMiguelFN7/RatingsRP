@@ -1,0 +1,48 @@
+@font-face {
+    font-family: Racing Sans One;
+    src: url(../fuentes/racing_sans_one-regular.ttf);
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family: "Racing Sans One", "Arial";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container{
+    margin-top: auto;
+    margin-bottom: auto;
+    justify-items: center;
+}
+
+.mensaje, .premio{
+    font-size: 70px;
+    text-align: center;
+    align-self: center;
+    margin-top: 10px;
+    margin-bottom: 0px;
+}
+
+.gif{
+    display: block;
+    width: 37%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media only screen and (max-width: 1000px) {
+    .mensaje{
+        font-size: 40px;
+    }
+
+    .gif{
+        width: 50%
+    }
+
+    .premio{
+        font-size: 30px;
+    }
+}

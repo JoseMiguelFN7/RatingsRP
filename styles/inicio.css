@@ -1,0 +1,103 @@
+@font-face {
+    font-family: Racing Sans One;
+    src: url(../fuentes/racing_sans_one-regular.ttf);
+}
+
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family: "Racing Sans One", "Arial";
+    height: 100dvh;
+}
+
+.logo-empresa{
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    width: 180px;
+    max-width: 100%;
+    height: auto;
+}
+
+header{
+    padding-top: 20px;
+}
+
+h1, h2{
+    margin: 0px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+h1{
+    font-size: 50px;
+}
+
+.button-grid{
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    max-width: 70%;
+    gap: 20px;
+}
+
+button{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-style: solid;
+    border-width: 2px;
+    border-color: white;
+    padding: 10px 20px;
+    background: none;
+    background-color: #0145A8;
+    color: white;
+    font-family: "Racing Sans One", "Arial";
+    border-radius: 8px;
+    font-size: 25px;
+    transition: 0.2s;
+    box-shadow: 5px 5px 8px rgba(128, 128, 128, 0);
+    cursor: pointer;
+}
+
+button:hover{
+    cursor: pointer;
+    box-shadow: 5px 5px 8px rgba(128, 128, 128, 0.8);
+    background-color: white;
+    color: #0145A8;
+    border-color: #0145A8;
+}
+
+button img{
+    height: 100px;
+    width: auto;
+}
+
+@media only screen and (max-width: 426px) {
+    body{
+        width: 100dvw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo-empresa{
+        position: relative;
+    }
+
+    header{
+        margin-bottom: 0px;
+    }
+
+    .button-grid{
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    button{
+        width: 100%;
+    }
+}
