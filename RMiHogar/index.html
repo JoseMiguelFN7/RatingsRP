@@ -4,55 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Repuestos MiHogar</title>
+    <link rel="icon" type="image/x-icon" href="../assets/tiendas/MiHogarLogo.ico">
+
+    <!-- CSS de Index -->
     <link rel="stylesheet" href="../styles/index.css">
-    <link rel="icon" type="image/x-icon" href="../images/MiHogarLogo.ico">
-    <script src="../CDNs/jquery.js"></script>
-    <script src="../CDNs/dataTable.js"></script>
-    <script>
-        function animacionImg(){
-            $("#first").css("width", 40+"%");
-            setTimeout(function(){
-                $("#first").css("width", 50+"%");
-                $("#second").css("width", 40+"%");
-                setTimeout(function(){
-                    $("#second").css("width", 50+"%");
-                    $("#third").css("width", 40+"%");
-                    setTimeout(function(){
-                        $("#third").css("width", 50+"%");
-                    }, 1000);
-                }, 1000);
-            }, 1000);
-        };
-    </script>
+
+    <!-- CDN de CSS para Bootstrap v5.3.3 -->
+    <link rel="stylesheet" href="../CDNs/BootstrapV5.3.3.css">
 </head>
-<body>
-    <main>
-        <header><h1 class="pregunta">¿Cómo fue tu experiencia con nosotros?</h1></header>
-        <form class="form-grid" method="POST" action="./vistas/success.php">
-            <div class="opcion">
-                <input class="rating-img" id="first" type="image" name="submitBuena" alt="Submit" src="../images/happyFace.png">
-                <input type="hidden" name="buena" value="Buena">
-                <label for="buena">Buena</label>
+<body class="bg-light w-100">
+    <div class="container-fluid d-flex align-items-center justify-content-center" style="height: 10dvh;"><h1 class="h1 text-center mt-md-3">¿Cómo fue tu experiencia con nosotros?</h1></div>
+    <div class="container-fluid d-flex justify-content-center align-items-center m-0 row" style="height: 61dvh;">
+        <form id="formRating" name="formRating" class="form h-100" method="post" action="./vistas/success.php">
+            <div class="row justify-content-evenly h-100">
+                <div class="form-group col-md-3 d-flex flex-column align-items-center h-100 justify-content-evenly">
+                    <div class="container-fluid h-100 d-flex align-items-center justify-content-center">
+                        <img id="feliz" name="feliz" type="image" src="../assets/icons/happyFace.png" alt="Cara Feliz" class="cara">
+                    </div>
+                    <label class="form-label fs-1" for="feliz">Buena</label>
+                </div>
+                <div class="form-group col-md-3 d-flex flex-column align-items-center h-100 justify-content-evenly">
+                    <div class="container-fluid h-100 d-flex align-items-center justify-content-center">
+                        <img id="serio" name="serio" type="image" src="../assets/icons/mehFace.png" alt="Cara Seria" class="cara">
+                    </div>
+                    <label class="form-label fs-1" for="serio">Regular</label>
+                </div>
+                <div class="form-group col-md-3 d-flex flex-column align-items-center h-100 justify-content-evenly">
+                    <div class="container-fluid h-100 d-flex align-items-center justify-content-center">
+                        <img id="triste" name="triste" type="image" src="../assets/icons/sadFace.png" alt="Cara Triste" class="cara">
+                    </div>
+                    <label class="form-label fs-1" for="triste">Deficiente</label>
+                </div>
             </div>
-            <div class="opcion">
-                <input class="rating-img" id="second" type="image" name="submitRegular" alt="Submit" src="../images/mehFace.png">
-                <input type="hidden" name="regular" value="Regular">
-                <label for="regular">Regular</label>
-            </div>
-            <div class="opcion">
-                <input class="rating-img" id="third" type="image" name="submitMala" alt="Submit" src="../images/sadFace.png">
-                <input type="hidden" name="mala" value="Deficiente">
-                <label for="mala">Deficiente</label>
-            </div>
+            <input type="hidden" id="rating" name="rating">
+            <input type="hidden" id="telefono" name="telefono">
         </form>
-        <center><img class="logo" src="../images/MiHogarLogo.png"></center>
-        <div class="copyright"><p class="texto">Desarrollado por: José Ferreira</p><img class="qr" src="../images/Ws_QR.jpg"></div>
-        <div class="whatsapp"><p class="texto">Whatsapp: +58 414-0894244</p><img class="qr" src="../images/qr_mihogar.jpeg"  alt="QR Empresa"></div>
-    </main>
-    <script>
-        $(document).ready(function(){
-            setInterval(animacionImg, 5000);
-        })
-    </script>
+    </div>
+    <div class="container-fluid d-flex justify-content-between align-items-center m-0 row" style="height: 29dvh;">
+        <div class="col d-flex flex-column align-items-center text-center h-100">
+            <p class="m-0 w-100 fs-5">&copy; Copyright José Ferreira</p>
+            <img style="object-fit: contain; height: 75%;" src="../assets/icons/Ws_QR.jpg" alt="QR Code">
+        </div>
+        <div class="col d-flex align-items-center justify-content-center h-100">
+            <img class="h-100" style="object-fit: contain;" src="../assets/tiendas/MiHogarLogo.png" alt="Logo">
+        </div>
+        <div class="col d-flex flex-column align-items-center text-center h-100">
+            <p class="m-0 w-100 fs-5">Whatsapp: +58 414-0894244</p>
+            <img style="object-fit: contain; height: 75%;" src="../assets/tiendas/qr_mihogar.jpeg" alt="QR Code">
+        </div>
+    </div>
 </body>
+<!-- CDN de JS para Bootstrap v5.3.3 -->
+<script src="../CDNs/BootstrapV5.3.3.js"></script>
+<!-- CDN de JS para jQuery v3.7.1 -->
+<script src="../CDNs/jQueryV3.7.1.js"></script>
+<!-- CDN de JS para sweetalert2 v11.14.2 -->
+<script src="../CDNs/sweetalert2v11.14.2.js"></script>
+<!-- JS para todos los index de ratings -->
+<script src="../JavaScript/indexRatings.js"></script>
 </html>

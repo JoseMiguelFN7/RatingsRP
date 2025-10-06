@@ -12,7 +12,7 @@
     ?>
 
     <link rel="stylesheet" href="../../styles/success.css">
-    <link rel="icon" type="image/x-icon" href="../../images/MiHogarLogo.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/tiendas/MiHogarLogo.ico">
 </head>
 <body>
     <div class="container">

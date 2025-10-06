@@ -82,40 +82,16 @@ body{
     margin-bottom: 10px; /* Espacio entre los botones y la tabla */
 }
 
-/*ol li {
-    counter-increment: num;
-}
-
-ol li:before {
-    content: counter(num) ". ";
-}
-
-ol {
-    list-style: none;
-    counter-reset: num;
-    width: 100%;
-    padding: 0px;
-    margin-top: 5px;
-}
-
-li, .list-titles{
-    display: grid;
-    grid-template-columns: 2rem 1fr 1fr 1fr 1fr;
-    text-align: center;
-}*/
-
 .details-control{
     cursor: pointer;
-    background: url('../images/plus-icon.png') no-repeat center center;
+    background: url('../assets/icons/plus-icon.png') no-repeat center center;
     background-size: contain;
-    transition: 0.2s;
 }
 
 tr.shown td.details-control {
     cursor: pointer;
-    background: url('../images/minus-icon.png') no-repeat center center;
+    background: url('../assets/icons/minus-icon.png') no-repeat center center;
     background-size: contain;
-    transition: 0.2s;
 }
 
 .list-titles p{

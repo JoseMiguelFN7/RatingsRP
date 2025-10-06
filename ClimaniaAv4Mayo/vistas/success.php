@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Climania Av. 4 de Mayo</title>
+    <title>Climanía Av. 4 de Mayo</title>
     <?php
         require "../controladorJson/actualizarJsonRatings.php";
         if($mensaje==="¡Muchas gracias por tu opinión!"){

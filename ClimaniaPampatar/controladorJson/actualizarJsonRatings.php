@@ -4,17 +4,10 @@
     if($_SERVER['REQUEST_METHOD'] == "POST"){
         $date = date("d/m/Y");
         $time = date("h:i a");
-        if(isset($_POST["submitMala_x"])){
-            $rating = $_POST["mala"];
-        }
-    
-        if(isset($_POST["submitRegular_x"])){
-            $rating = $_POST["regular"];
-        }
-    
-        if(isset($_POST["submitBuena_x"])){
-            $rating = $_POST["buena"];
-        }
+
+        $rating = $_POST["rating"];
+
+        $tel = $_POST["telefono"];
 
         if(file_exists("../json/ratings.json") && isset($rating))
         {
@@ -24,6 +17,7 @@
             $newElement = array(
                 "date" => $date,
                 "time" => $time,
+                "tel" => $tel,
                 "rating" => $rating
             );
             
@@ -36,6 +30,7 @@
                     "0" => array(
                         "date" => $date,
                         "time" => $time,
+                        "tel" => $tel,
                         "rating" => $rating
                     )
                 )
@@ -47,10 +42,23 @@
         }
 
         $mensaje = "¡Muchas gracias por tu opinión!";
-        $imagen = "../../images/check.gif";
+        $imagen = "../../assets/icons/check.gif";
+
+        $archivoTelefs = '../json/telefonos.json';
+        $telefs = [];
+        if(file_exists($archivoTelefs)){
+            $jsonTelefs = file_get_contents($archivoTelefs);
+            $telefs = json_decode($jsonTelefs, true);
+        }
+
+        if(!in_array($tel, $telefs)){
+            array_unshift($telefs, $tel);
+        }
+
+        file_put_contents($archivoTelefs, json_encode($telefs, true));
     } else{
         $mensaje = "Ocurrio un error inesperado.";
-        $imagen = "../../images/x-icon.png";
+        $imagen = "../../assets/icons/x-icon.png";
     }
 
 ?>
